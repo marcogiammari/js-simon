@@ -1,7 +1,3 @@
-// DA RISOLVERE: BUG QUANDO PREMI DI NUOVO PLAY PER RIGIOCARE 
-
-
-
 // INIT
 
 playBtn = document.getElementById("play-btn");
@@ -13,6 +9,11 @@ winParagraph = document.getElementById("win-paragraph");
 playBtn.addEventListener("click", startGame);
 
 function startGame() {
+    let paragraphs = document.querySelectorAll("p")
+    for (let i = 0; i < paragraphs.length; i++) {
+        paragraphs[i].innerHTML = "";
+        
+    }
     numsParagraph.innerHTML = "";
     getRndNums();
     setTimer();
@@ -21,6 +22,7 @@ function startGame() {
 
 rndNums = []
 function getRndNums() {
+    rndNums = []
     for (let i = 0; i < 5; i++) {
         let rndNum = Math.floor(Math.random() * 9 + 1);
         numsParagraph.innerHTML += rndNum;
@@ -29,11 +31,11 @@ function getRndNums() {
 }
 
 function setTimer() {
-    timerParagraph.classList.toggle("d-none");
+    timerParagraph.classList.remove("d-none");
     let seconds = 5;
     timer = setInterval(function() {
         seconds--;
-        timerParagraph.innerHTML = seconds;
+        timerParagraph.innerHTML = "Tempo restante: " + seconds + " secondi";
         if (seconds == 0) {
             timerParagraph.innerHTML = "Tempo scaduto!"
             numsParagraph.innerHTML = "";
@@ -46,19 +48,19 @@ function setTimer() {
 
 let userNums = [];
 function reset() {
-        resultParagraph.classList.toggle("d-none");
-        numsParagraph.innerHTML = "I numeri da te inseriti sono: ";
-        for (let i = 0; i < 5; i++) {
-            let msg = prompt("Riscrivi i cinque numeri uno alla volta");
-            userNums.push(msg);
-            
-            numsParagraph.innerHTML += msg;
-        }    
-        result(userNums)
+    userNums = [];
+    resultParagraph.classList.remove("d-none");
+    numsParagraph.innerHTML = "I numeri da te inseriti sono: ";
+    for (let i = 0; i < 5; i++) {
+        let msg = prompt("Riscrivi i cinque numeri uno alla volta");
+        userNums.push(msg);
+        numsParagraph.innerHTML += msg;
+    }    
+    result(userNums)
 }
 
 function result(numsToCheck) {
-    winParagraph.classList.toggle("d-none");
+    winParagraph.classList.remove("d-none");
     numsArray = [];
     numsParagraph.innerHTML = `Numeri inseriti: ${numsToCheck.join('')}`;
     for (let i = 0; i < numsToCheck.length; i++) {
@@ -74,7 +76,7 @@ function result(numsToCheck) {
     }
     timerParagraph.innerHTML = `I numeri corretti erano: ${rndNums}`;
     
-    if (numsToCheck == rndNums) {
+    if (numsArray.length == 5) {
         winParagraph.innerHTML += "<strong>Hai vinto</strong>"
     } else {
         winParagraph.innerHTML += "<strong>Hai perso</strong>"
