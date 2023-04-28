@@ -4,6 +4,7 @@ playBtn = document.getElementById("play-btn");
 numsParagraph = document.getElementById("nums-paragraph");
 timerParagraph = document.getElementById("timer-paragraph");
 resultParagraph = document.getElementById("result-paragraph");
+winParagraph = document.getElementById("win-paragraph");
 
 playBtn.addEventListener("click", startGame);
 
@@ -44,21 +45,28 @@ function reset() {
         for (let i = 0; i < 5; i++) {
             let msg = prompt("Riscrivi i cinque numeri uno alla volta");
             userNums.push(msg);
+            
             numsParagraph.innerHTML += msg;
         }    
         result(userNums)
 }
 
 function result(numsToCheck) {
-    win = false;
+    numsArray = [];
+    rndNums = rndNums.join('');
+    numsToCheck = numsToCheck.join('');
+    numsParagraph.innerHTML = `Numeri inseriti: ${numsToCheck}`;
     for (let i = 0; i < numsToCheck.length; i++) {
         if (numsToCheck[i] == rndNums[i]) {
-            win = true;
+            numsArray.push(numsToCheck[i]);
         } 
     }
-    if (win) {
-        resultParagraph.innerHTML = "Hai vinto"
+    resultParagraph.innerHTML = `Hai indovinato ${numsArray.length} numero/i. Numeri indovinati: ${numsArray.join("")}`
+    timerParagraph.innerHTML = `I numeri corretti erano: ${rndNums}`;
+    
+    if (numsToCheck == rndNums) {
+        winParagraph.innerHTML += "<strong>Hai vinto</strong>"
     } else {
-        resultParagraph.innerHTML = "Hai perso"
+        winParagraph.innerHTML += "<strong>Hai perso</strong>"
     }
 }
