@@ -1,3 +1,7 @@
+// DA RISOLVERE: BUG QUANDO PREMI DI NUOVO PLAY PER RIGIOCARE 
+
+
+
 // INIT
 
 playBtn = document.getElementById("play-btn");
@@ -12,7 +16,7 @@ function startGame() {
     numsParagraph.innerHTML = "";
     getRndNums();
     setTimer();
-    setTimeout(reset, 4000);
+    setTimeout(reset, 6000);
 }
 
 rndNums = []
@@ -25,7 +29,8 @@ function getRndNums() {
 }
 
 function setTimer() {
-    let seconds = 3;
+    timerParagraph.classList.toggle("d-none");
+    let seconds = 5;
     timer = setInterval(function() {
         seconds--;
         timerParagraph.innerHTML = seconds;
@@ -41,6 +46,7 @@ function setTimer() {
 
 let userNums = [];
 function reset() {
+        resultParagraph.classList.toggle("d-none");
         numsParagraph.innerHTML = "I numeri da te inseriti sono: ";
         for (let i = 0; i < 5; i++) {
             let msg = prompt("Riscrivi i cinque numeri uno alla volta");
@@ -52,16 +58,20 @@ function reset() {
 }
 
 function result(numsToCheck) {
+    winParagraph.classList.toggle("d-none");
     numsArray = [];
-    rndNums = rndNums.join('');
-    numsToCheck = numsToCheck.join('');
-    numsParagraph.innerHTML = `Numeri inseriti: ${numsToCheck}`;
+    numsParagraph.innerHTML = `Numeri inseriti: ${numsToCheck.join('')}`;
     for (let i = 0; i < numsToCheck.length; i++) {
         if (numsToCheck[i] == rndNums[i]) {
             numsArray.push(numsToCheck[i]);
         } 
     }
-    resultParagraph.innerHTML = `Hai indovinato ${numsArray.length} numero/i. Numeri indovinati: ${numsArray.join("")}`
+    rndNums = rndNums.join('');
+    numsToCheck = numsToCheck.join('');
+    resultParagraph.innerHTML = `Hai indovinato ${numsArray.length} numero/i.`
+    if (numsArray.length > 0) {
+        resultParagraph.innerHTML = `Numeri indovinati: ${numsArray.join("")}`
+    }
     timerParagraph.innerHTML = `I numeri corretti erano: ${rndNums}`;
     
     if (numsToCheck == rndNums) {
@@ -70,3 +80,4 @@ function result(numsToCheck) {
         winParagraph.innerHTML += "<strong>Hai perso</strong>"
     }
 }
+
